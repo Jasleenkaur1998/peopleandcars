@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { Button, Form, Input } from 'antd'
-import { v4 as uuidv4 } from 'uuid'
-import { ADD_PERSON, GET_PERSONS } from '../../queries'
+import { useEffect, useState } from 'react'
+import { UPDATE_CAR } from '../../queries'
 
-const AddPerson = () => {
-    const [id] = useState(uuidv4())
-    const [addPerson] = useMutation(ADD_PERSON);
+const UpdateCar = props => {
+    const { id, make, model, year, personId, price } = props
+    const [updateCar] = useMutation(UPDATE_CAR)
 
     const [form] = Form.useForm()
     const [, forceUpdate] = useState()
@@ -16,35 +15,27 @@ const AddPerson = () => {
     }, [])
 
     const onFinish = values => {
-        const { firstName, lastName } = values
+        const { make, model, year, personId, price } = values
 
-        addPerson({
+        updateCar({
             variables: {
                 id,
-                firstName,
-                lastName
-            },
-            update: (cache, { data: { addPerson } }) => {
-                const data = cache.readQuery({ query: GET_PERSONS })
-                cache.writeQuery({
-                    query: GET_PERSONS,
-                    data: {
-                        ...data,
-                        peoples: [...data.peoples, addPerson]
-                    }
-                })
+                make, model, year, personId, price
             }
         })
+
+        props.onButtonClick()
     }
 
     return (
         <Form
             form={form}
-            name='add-contact-form'
+            name='update-contact-form'
             layout='inline'
             onFinish={onFinish}
-            size='large'
-            style={{ marginBottom: '40px', display: "flex", justifyContent: 'center', marginTop: '40px' }}
+            initialValues={{
+                make, model, year, personId, price
+            }}
         >
             <Form.Item
                 name='firstName'
@@ -64,16 +55,19 @@ const AddPerson = () => {
                         type='primary'
                         htmlType='submit'
                         disabled={
-                            !form.isFieldsTouched(true) ||
+                            (!form.isFieldTouched('firstName') && !form.isFieldTouched('lastName')) ||
                             form.getFieldsError().filter(({ errors }) => errors.length).length
                         }
                     >
-                        Add Person
+                        Update Contact
                     </Button>
                 )}
             </Form.Item>
+            <Button type='danger' onClick={props.onButtonClick}>
+                Cancel
+            </Button>
         </Form>
     )
 }
 
-export default AddPerson;
+export default UpdateCar

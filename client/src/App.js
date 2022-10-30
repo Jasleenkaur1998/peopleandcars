@@ -8,13 +8,25 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 })
 
+const getStyles = () => ({
+  list: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: "100%"
+  }
+})
+
 function App() {
+
+  const styles = getStyles()
+
+
   return (
     <ApolloProvider client={client}>
-
-      <AddPerson />
-      <People />
-
+      <div className={styles.list}>
+        <AddPerson />
+        <People />
+      </div>
     </ApolloProvider>
   );
 }
