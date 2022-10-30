@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { List } from 'antd'
-import { GET_CONTACTS } from '../../../queries'
-import Contact from '../listItems/Contact'
+import { GET_CARS, GET_PERSONS } from '../../queries'
+import PeopleItem from '../record/listItem'
 
 const getStyles = () => ({
     list: {
@@ -10,22 +10,25 @@ const getStyles = () => ({
     }
 })
 
-const Contacts = () => {
+const People = () => {
     const styles = getStyles()
 
-    const { loading, error, data } = useQuery(GET_CONTACTS)
-    if (loading) return 'Loading...'
-    if (error) return `Error! ${error.message}`
+    const people = useQuery(GET_PERSONS);
+    const cars = useQuery(GET_CARS);
+
+
+    if (people.loading) return 'Loading...'
+    if (people.error) return `Error! ${people.error.message}`
 
     return (
         <List grid={{ gutter: 20, column: 1 }} style={styles.list}>
-            {data.contacts.map(({ id, firstName, lastName }) => (
+            {people.data.peoples.map(({ id, firstName, lastName }) => (
                 <List.Item key={id}>
-                    <Contact id={id} firstName={firstName} lastName={lastName} />
+                    <PeopleItem id={id} firstName={firstName} lastName={lastName} />
                 </List.Item>
             ))}
         </List>
     )
 }
 
-export default Contacts
+export default People;
