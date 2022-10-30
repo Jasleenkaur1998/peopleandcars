@@ -4,7 +4,7 @@ import { gql } from "@apollo/client";
 // ********* PERSONS QUERIES STARTS *************
 export const GET_PERSONS = gql`
   {
-    personList {
+    peoples {
       id
       firstName
       lastName
@@ -13,8 +13,8 @@ export const GET_PERSONS = gql`
 `;
 
 export const ADD_PERSON = gql`
-  mutation AddPerson($id: String!, $firstName: String!, $lastName: String!) {
-    addPerson(id: $id, firstName: $firstName, lastName: $lastName) {
+  mutation AddPeople($id: String!, $firstName: String!, $lastName: String!) {
+    addPeople(id: $id, firstName: $firstName, lastName: $lastName) {
       id
       firstName
       lastName
@@ -24,8 +24,8 @@ export const ADD_PERSON = gql`
 
 
 export const UPDATE_PERSON = gql`
-  mutation UpdatePerson($id: String!, $firstName: String!, $lastName: String!) {
-    updatePerson(id: $id, firstName: $firstName, lastName: $lastName) {
+  mutation UpdatePeople($id: String!, $firstName: String!, $lastName: String!) {
+    updatePeople(id: $id, firstName: $firstName, lastName: $lastName) {
       id
       firstName
       lastName
@@ -34,8 +34,8 @@ export const UPDATE_PERSON = gql`
 `;
 
 export const REMOVE_PERSON = gql`
-  mutation RemovePerson($id: String!) {
-    removePerson(id: $id) {
+  mutation RemovePeople($id: String!) {
+    removePeople(id: $id) {
       id
       firstName
       lastName
