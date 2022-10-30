@@ -17,6 +17,8 @@ const People = () => {
     const cars = useQuery(GET_CARS);
 
 
+
+
     if (people.loading) return 'Loading...'
     if (people.error) return `Error! ${people.error.message}`
 
@@ -24,7 +26,7 @@ const People = () => {
         <List grid={{ gutter: 20, column: 1 }} style={styles.list}>
             {people.data.peoples.map(({ id, firstName, lastName }) => (
                 <List.Item key={id}>
-                    <PeopleItem id={id} firstName={firstName} lastName={lastName} />
+                    <PeopleItem cars={cars.data?.cars} id={id} firstName={firstName} lastName={lastName} />
                 </List.Item>
             ))}
         </List>

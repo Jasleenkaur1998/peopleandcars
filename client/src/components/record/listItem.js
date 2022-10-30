@@ -11,20 +11,21 @@ const getStyles = () => ({
 })
 
 const PeopleItem = props => {
-  const { id, firstName, lastName } = props
-  const styles = getStyles()
+  console.log(props);
+  const { id, firstName, lastName, cars } = props;
+  const styles = getStyles();
 
-  const [editMode, setEditMode] = useState(false)
+  const [editMode, setEditMode] = useState(false);
 
-  const handleButtonClick = () => setEditMode(!editMode)
+  const handleButtonClick = () => setEditMode(!editMode);
+
+  console.log(cars);
 
   return (
     <>
       {editMode ? (
         <UpdateCar
           id={id}
-          firstName={firstName}
-          lastName={lastName}
           onButtonClick={handleButtonClick}
         />
       ) : (
@@ -35,7 +36,14 @@ const PeopleItem = props => {
             <RemoveCar id={id} />
           ]}
         >
-          {firstName} {lastName}
+          <h1 style={{ background: "#e2d6ff", padding: 8 }}>{firstName} {lastName}</h1>
+          <ul style={{ listStyleType: "none" }}>
+            {
+              cars?.filter((item) => item.personId == id).map((val) => {
+                return <li>{val.make}</li>
+              })
+            }
+          </ul>
         </Card>
       )}
     </>
