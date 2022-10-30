@@ -197,7 +197,7 @@ const resolvers = {
                 personId: args.personId,
             };
 
-            addCar.push(newCar);
+            cars.push(newCar);
 
             return newCar;
         },
