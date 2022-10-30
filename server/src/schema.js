@@ -1,6 +1,7 @@
-import { find, remove } from "lodash";
+import { gql } from 'apollo-server-express'
+import { find, remove } from 'lodash'
 
-const personList = [
+const peoples = [
     {
         id: "1",
         firstName: "Bill",
@@ -20,118 +21,99 @@ const personList = [
 
 const cars = [
     {
-        id: "1",
-        year: "2019",
-        make: "Toyota",
-        model: "Corolla",
-        price: "40000",
-        personId: "1",
+      id: "1",
+      year: "2019",
+      make: "Toyota",
+      model: "Corolla",
+      price: "40000",
+      personId: "1",
     },
     {
-        id: "2",
-        year: "2018",
-        make: "Lexus",
-        model: "LX 600",
-        price: "13000",
-        personId: "1",
+      id: "2",
+      year: "2018",
+      make: "Lexus",
+      model: "LX 600",
+      price: "13000",
+      personId: "1",
     },
     {
-        id: "3",
-        year: "2017",
-        make: "Honda",
-        model: "Civic",
-        price: "20000",
-        personId: "1",
+      id: "3",
+      year: "2017",
+      make: "Honda",
+      model: "Civic",
+      price: "20000",
+      personId: "1",
     },
     {
-        id: "4",
-        year: "2019",
-        make: "Acura ",
-        model: "MDX",
-        price: "60000",
-        personId: "2",
+      id: "4",
+      year: "2019",
+      make: "Acura ",
+      model: "MDX",
+      price: "60000",
+      personId: "2",
     },
     {
-        id: "5",
-        year: "2018",
-        make: "Ford",
-        model: "Focus",
-        price: "35000",
-        personId: "2",
+      id: "5",
+      year: "2018",
+      make: "Ford",
+      model: "Focus",
+      price: "35000",
+      personId: "2",
     },
     {
-        id: "6",
-        year: "2017",
-        make: "Honda",
-        model: "Pilot",
-        price: "45000",
-        personId: "2",
+      id: "6",
+      year: "2017",
+      make: "Honda",
+      model: "Pilot",
+      price: "45000",
+      personId: "2",
     },
     {
-        id: "7",
-        year: "2019",
-        make: "Volkswagen",
-        model: "Golf",
-        price: "40000",
-        personId: "3",
+      id: "7",
+      year: "2019",
+      make: "Volkswagen",
+      model: "Golf",
+      price: "40000",
+      personId: "3",
     },
     {
-        id: "8",
-        year: "2018",
-        make: "Kia",
-        model: "Sorento",
-        price: "45000",
-        personId: "3",
+      id: "8",
+      year: "2018",
+      make: "Kia",
+      model: "Sorento",
+      price: "45000",
+      personId: "3",
     },
     {
-        id: "9",
-        year: "2017",
-        make: "Volvo",
-        model: "XC40",
-        price: "55000",
-        personId: "3",
+      id: "9",
+      year: "2017",
+      make: "Volvo",
+      model: "XC40",
+      price: "55000",
+      personId: "3",
     },
-];
+  ];
+  
 
 const typeDefs = `
-type Person {
+  type People {
     id: String!
     firstName: String
     lastName: String
-}
-type Car {
-  id: String!
-  year: String
-  make: String
-  model: String
-  price: String
-  personId: String
-}
-type Mutation {
-    addPerson(
-        id: String!,
-        firstName: String!,
-        lastName: String!): Person
-
-    addCar(
-        id: String!
-        year: String!
-        make: String!
-        model: String!
-        price: String!
-        personId: String!
-    ): Car
-
-  removePerson(id: String!): Person
-
-  removeCar(id: String!): Car
-
-  updatePerson(
-    id: String!,
-    firstName: String,
-    lastName: String): Person
-
-  updateCar(
+  }
+  type Car {
+    id: String!
+    year: String
+    make: String
+    model: String
+    price: String
+    personId: String
+  }
+  type Mutation {
+   addPeople(id: String!, firstName: String!, lastName: String!): People
+   updatePeople(id: String!, firstName: String, lastName: String): People
+   removePeople(id: String!): People
+   addCar(
     id: String!
     year: String!
     make: String!
@@ -139,21 +121,29 @@ type Mutation {
     price: String!
     personId: String!
   ): Car
-}
-
-type Query {
-    person(id: String!): Person
-    personList: [Person]
+  updateCar(
+    id: String!
+    year: String!
+    make: String!
+    model: String!
+    price: String!
+    personId: String!
+  ): People
+  removeCar(id: String!): Car
+  }
+  type Query {
+    people(id: String!): People
+    peoples: [People]
     car(id: String!): Car
     cars: [Car]
-}
-`;
+  }
+`
 
-const typeResolvers = {
+const resolvers = {
     Query: {
-        personList: () => personList,
-        person: (root, args) => {
-            return find(personList, { id: args.id });
+        peoples: () => peoples,
+        people: (root, { id }) => {
+            return find(peoples, { id });
         },
         cars: () => cars,
         car: (root, args) => {
@@ -161,43 +151,42 @@ const typeResolvers = {
         },
     },
     Mutation: {
-        addPerson: (root, args) => {
-            const addedPerson = {
-                id: args.id,
-                firstName: args.firstName,
-                lastName: args.lastName,
+        addPeople: (root, { id, firstName, lastName }) => {
+            const newPeople = {
+                id,
+                firstName,
+                lastName,
             };
 
-            personList.push(addedPerson);
+            peoples.push(newPeople);
 
-            return addedPerson;
+            return newPeople;
         },
-        updatePerson: (root, args) => {
-            const updatedPerson = find(personList, { id: args.id });
+        updatePeople: (root, { id, firstName, lastName }) => {
+            const people = find(peoples, { id });
 
-            if (!updatedPerson) {
-                throw new Error(`Couldn't find person with id ${args.id}`);
+            if (!people) {
+                throw new Error(`Couldn't find person with id ${id}`);
             }
 
-            updatedPerson.firstName = args.firstName;
-            updatedPerson.lastName = args.lastName;
+            people.firstName = firstName;
+            people.lastName = lastName;
 
-            return updatedPerson;
+            return people;
         },
-        removePerson: (root, args) => {
-            const removedpersonList = find(personList, { id: args.id });
+        removePeople: (root, { id }) => {
+            const removedPeoples = find(peoples, { id });
 
-            if (!removedpersonList) {
-                throw new Error(`Couldn't find Person with id ${args.id}`);
+            if (!removedPeoples) {
+                throw new Error(`Couldn't find Person with id ${id}`);
             }
 
-            remove(personList, (c) => {
-                return c.id === removedpersonList.id;
+            remove(peoples, (c) => {
+                return c.id === removedPeoples.id;
             });
 
-            return removedpersonList;
+            return removedPeoples;
         },
-
         addCar: (root, args) => {
             const newCar = {
                 id: args.id,
@@ -240,7 +229,7 @@ const typeResolvers = {
 
             return removedCars;
         },
-    },
-};
+    }
+}
 
-export { typeDefs, typeResolvers };
+export { typeDefs, resolvers }
