@@ -3,7 +3,8 @@ import { useMutation, useQuery } from '@apollo/client'
 import { Button, Dropdown, Form, Input, Menu, Space } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import { ADD_CAR, GET_CARS, GET_PERSONS } from '../../queries'
-import { DownOutlined } from '@ant-design/icons'
+import { DownOutlined } from '@ant-design/icons';
+import React from 'react';
 
 const AddCar = () => {
     const [id] = useState(uuidv4())
@@ -18,7 +19,7 @@ const AddCar = () => {
     }, []);
 
     function getMenu() {
-        const data = people.data?.peoples.map((item, index) => {
+        const data = people.data.peoples.map((item, index) => {
             return (
 
                 {

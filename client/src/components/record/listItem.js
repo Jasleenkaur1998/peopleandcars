@@ -3,6 +3,7 @@ import { EditOutlined } from '@ant-design/icons'
 import { Card } from 'antd'
 import UpdateCar from '../actionButtons/updateListItem'
 import RemoveCar from '../actionButtons/removeListItem'
+import React from 'react';
 
 const getStyles = () => ({
   card: {
@@ -26,7 +27,7 @@ const PeopleItem = props => {
         <h1 style={{ background: "#e2d6ff", padding: 8 }}>{firstName} {lastName}</h1>
         <ul style={{ listStyleType: "none" }}>
           {
-            cars?.filter((item) => item.personId == id).map((val) => {
+            cars.filter((item) => item.personId == id).map((val) => {
               return <li style={{ display: "flex", justifyContent: "space-between" }}>
 
                 <span>{val.make} {val.model} {val.year} ${val.price}</span>

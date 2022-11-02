@@ -3,6 +3,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import AddPerson from './components/forms/addPerson';
 import People from './components/recordList/list';
 import AddCar from './components/forms/addCar';
+import React from 'react';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',

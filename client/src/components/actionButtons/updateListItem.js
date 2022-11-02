@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client'
 import { Button, Form, Input } from 'antd'
 import { useEffect, useState } from 'react'
 import { UPDATE_CAR } from '../../queries'
+import React from 'react';
 
 const UpdateCar = props => {
     const { id, make, model, year, personId, price } = props.data;

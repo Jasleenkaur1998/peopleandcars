@@ -4,6 +4,7 @@ import { useMutation } from '@apollo/client'
 
 import filter from 'lodash.filter'
 import { GET_CARS, REMOVE_CAR } from '../../queries'
+import React from 'react';
 
 const RemoveCar = ({ id }) => {
   const [removeCar] = useMutation(REMOVE_CAR, {
