@@ -6,7 +6,7 @@ import { ADD_PERSON, GET_PERSONS } from '../../queries'
 
 const AddPerson = () => {
     const [id] = useState(uuidv4())
-    const [addPerson] = useMutation(ADD_PERSON);
+    const [addPeople] = useMutation(ADD_PERSON)
 
     const [form] = Form.useForm()
     const [, forceUpdate] = useState()
@@ -18,19 +18,19 @@ const AddPerson = () => {
     const onFinish = values => {
         const { firstName, lastName } = values
 
-        addPerson({
+        addPeople({
             variables: {
                 id,
                 firstName,
                 lastName
             },
-            update: (cache, { data: { addPerson } }) => {
+            update: (cache, { data: { addPeople } }) => {
                 const data = cache.readQuery({ query: GET_PERSONS })
                 cache.writeQuery({
                     query: GET_PERSONS,
                     data: {
                         ...data,
-                        peoples: [...data.peoples, addPerson]
+                        peoples: [...data.peoples, addPeople]
                     }
                 })
             }
