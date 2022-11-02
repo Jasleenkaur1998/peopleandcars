@@ -40,7 +40,7 @@ const PeopleItem = props => {
                   }
 
 
-                  <RemoveCar id={id} />
+                  <RemoveCar id={val.id} />
                 </div>
               </li>
             })
