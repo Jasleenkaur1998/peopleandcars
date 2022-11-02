@@ -6,12 +6,11 @@ import RemoveCar from '../actionButtons/removeListItem'
 
 const getStyles = () => ({
   card: {
-    width: '500px'
+    width: 'calc(100vw - 100px)'
   }
 })
 
 const PeopleItem = props => {
-  console.log(props);
   const { id, firstName, lastName, cars } = props;
   const styles = getStyles();
 
@@ -19,33 +18,36 @@ const PeopleItem = props => {
 
   const handleButtonClick = () => setEditMode(!editMode);
 
-  console.log(cars);
-
   return (
     <>
-      {editMode ? (
-        <UpdateCar
-          id={id}
-          onButtonClick={handleButtonClick}
-        />
-      ) : (
-        <Card
-          style={styles.card}
-          actions={[
-            <EditOutlined key='edit' onClick={handleButtonClick} />,
-            <RemoveCar id={id} />
-          ]}
-        >
-          <h1 style={{ background: "#e2d6ff", padding: 8 }}>{firstName} {lastName}</h1>
-          <ul style={{ listStyleType: "none" }}>
-            {
-              cars?.filter((item) => item.personId == id).map((val) => {
-                return <li>{val.make}</li>
-              })
-            }
-          </ul>
-        </Card>
-      )}
+      <Card
+        style={styles.card}
+      >
+        <h1 style={{ background: "#e2d6ff", padding: 8 }}>{firstName} {lastName}</h1>
+        <ul style={{ listStyleType: "none" }}>
+          {
+            cars?.filter((item) => item.personId == id).map((val) => {
+              return <li style={{ display: "flex", justifyContent: "space-between" }}>
+
+                <span>{val.make} {val.model} {val.year} ${val.price}</span>
+                <div style={{ display: "flex", gap: 8, padding: 8 }}>
+                  {
+                    editMode ? <UpdateCar
+                      id={id}
+                      data={val}
+                      onButtonClick={handleButtonClick}
+                    /> : <EditOutlined key='edit' onClick={handleButtonClick} />
+                  }
+
+
+                  <RemoveCar id={id} />
+                </div>
+              </li>
+            })
+          }
+        </ul>
+      </Card>
+
     </>
   )
 }

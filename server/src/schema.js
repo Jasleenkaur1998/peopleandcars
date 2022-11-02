@@ -128,7 +128,7 @@ const typeDefs = `
     model: String!
     price: String!
     personId: String!
-  ): People
+  ): Car
   removeCar(id: String!): Car
   }
   type Query {

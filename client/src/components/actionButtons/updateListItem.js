@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react'
 import { UPDATE_CAR } from '../../queries'
 
 const UpdateCar = props => {
-    const { id, make, model, year, personId, price } = props
+    const { id, make, model, year, personId, price } = props.data;
+    console.log(personId, "From props");
     const [updateCar] = useMutation(UPDATE_CAR)
 
     const [form] = Form.useForm()
@@ -15,7 +16,8 @@ const UpdateCar = props => {
     }, [])
 
     const onFinish = values => {
-        const { make, model, year, personId, price } = values
+        const { make, model, year, price } = values;
+
 
         updateCar({
             variables: {
@@ -37,17 +39,31 @@ const UpdateCar = props => {
                 make, model, year, personId, price
             }}
         >
-            <Form.Item
-                name='firstName'
-                rules={[{ required: true, message: 'Please input your first name!' }]}
+
+<Form.Item
+                name='year'
+                rules={[{ required: true, message: 'Please enter car year here' }]}
             >
-                <Input placeholder='i.e. John' />
+                <Input placeholder='i.e. 2018' />
+            </Form.Item>
+            
+            <Form.Item
+                name='make'
+                rules={[{ required: true, message: 'Please enter car make here' }]}
+            >
+                <Input placeholder='i.e. BMW' />
             </Form.Item>
             <Form.Item
-                name='lastName'
-                rules={[{ required: true, message: 'Please input your last name!' }]}
+                name='model'
+                rules={[{ required: true, message: 'Please enter car model here' }]}
             >
-                <Input placeholder='i.e. Smith' />
+                <Input placeholder='i.e. 3 series' />
+            </Form.Item>
+            <Form.Item
+                name='price'
+                rules={[{ required: true, message: 'Please enter car price here' }]}
+            >
+                <Input placeholder='i.e. 50000' />
             </Form.Item>
             <Form.Item shouldUpdate={true}>
                 {() => (
@@ -55,11 +71,11 @@ const UpdateCar = props => {
                         type='primary'
                         htmlType='submit'
                         disabled={
-                            (!form.isFieldTouched('firstName') && !form.isFieldTouched('lastName')) ||
+                            (!form.isFieldTouched('year') && !form.isFieldTouched('make') && !form.isFieldTouched('model') && !form.isFieldTouched('price'))  ||
                             form.getFieldsError().filter(({ errors }) => errors.length).length
                         }
                     >
-                        Update Contact
+                        Update Car
                     </Button>
                 )}
             </Form.Item>

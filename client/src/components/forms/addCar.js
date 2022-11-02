@@ -13,8 +13,6 @@ const AddCar = () => {
     const [, forceUpdate] = useState()
     const people = useQuery(GET_PERSONS);
 
-    console.log(people, "people");
-
     useEffect(() => {
         forceUpdate({})
     }, []);
@@ -56,6 +54,8 @@ const AddCar = () => {
                 })
             }
         })
+
+        form.resetFields();
     }
 
     return (
@@ -89,7 +89,7 @@ const AddCar = () => {
                 name='price'
                 rules={[{ required: true, message: 'Please enter car price here' }]}
             >
-                <Input placeholder='i.e. 3 series' />
+                <Input placeholder='i.e. 50000' />
             </Form.Item>
            <Form.Item>
            <Dropdown overlay={getMenu}>
